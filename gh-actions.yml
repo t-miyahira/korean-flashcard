@@ -1,0 +1,64 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read    # 最小権限の原則
+    steps:
+      - uses: actions/checkout@v4
+
+      # pnpm セットアップ（corepack 経由でバージョン固定）
+      - name: Enable corepack
+        run: corepack enable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      # セキュアなインストール
+      # --frozen-lockfile: lockfile と一致しなければ失敗（改ざん検知）
+      # ignore-scripts は .npmrc で設定済み
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 既知の脆弱性チェック
+      - name: Audit dependencies
+        run: pnpm audit --prod
+        continue-on-error: true  # 初期は警告のみ、慣れたら true を外す
+
+      - name: Build
+        run: pnpm build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pages: write       # 最小権限
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
