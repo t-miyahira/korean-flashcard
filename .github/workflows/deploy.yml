@@ -20,13 +20,13 @@ jobs:
     permissions:
       contents: read    # 最小権限の原則
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       # pnpm セットアップ（corepack 経由でバージョン固定）
       - name: Enable corepack
         run: corepack enable
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
           cache: pnpm
@@ -40,12 +40,12 @@ jobs:
       # 既知の脆弱性チェック
       - name: Audit dependencies
         run: pnpm audit --prod
-        continue-on-error: true  # 初期は警告のみ、慣れたら true を外す
+        continue-on-error: false
 
       - name: Build
         run: pnpm build
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
           path: dist
 
@@ -61,4 +61,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
