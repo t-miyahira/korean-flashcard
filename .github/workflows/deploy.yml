@@ -35,7 +35,7 @@ jobs:
       # --frozen-lockfile: lockfile と一致しなければ失敗（改ざん検知）
       # ignore-scripts は .npmrc で設定済み
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
 
       # 既知の脆弱性チェック
       - name: Audit dependencies
