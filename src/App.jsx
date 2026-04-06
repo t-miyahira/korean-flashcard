@@ -1,39 +1,73 @@
 import { useState, useEffect, useMemo } from "react";
 
 const CARDS = [
+  // ── かんたん ──
   // 動物 (12)
-  { id:1, kr:"강아지", ruby:"カンアジ", en:"dog", emoji:"🐶", cat:"動物" },
-  { id:2, kr:"고양이", ruby:"コヤンイ", en:"cat", emoji:"🐱", cat:"動物" },
-  { id:3, kr:"토끼", ruby:"トッキ", en:"rabbit", emoji:"🐰", cat:"動物" },
-  { id:4, kr:"새", ruby:"セ", en:"bird", emoji:"🐦", cat:"動物" },
-  { id:5, kr:"물고기", ruby:"ムルコギ", en:"fish", emoji:"🐟", cat:"動物" },
-  { id:16, kr:"돼지", ruby:"トェジ", en:"pig", emoji:"🐷", cat:"動物" },
-  { id:17, kr:"개구리", ruby:"ケグリ", en:"frog", emoji:"🐸", cat:"動物" },
-  { id:18, kr:"코끼리", ruby:"コッキリ", en:"elephant", emoji:"🐘", cat:"動物" },
-  { id:19, kr:"원숭이", ruby:"ウォンスンイ", en:"monkey", emoji:"🐵", cat:"動物" },
-  { id:20, kr:"곰", ruby:"コム", en:"bear", emoji:"🐻", cat:"動物" },
-  { id:21, kr:"사자", ruby:"サジャ", en:"lion", emoji:"🦁", cat:"動物" },
-  { id:22, kr:"거북이", ruby:"コブギ", en:"turtle", emoji:"🐢", cat:"動物" },
+  { id:1, kr:"강아지", ruby:"カンアジ", emoji:"🐶", cat:"動物", lv:"かんたん" },
+  { id:2, kr:"고양이", ruby:"コヤンイ", emoji:"🐱", cat:"動物", lv:"かんたん" },
+  { id:3, kr:"토끼", ruby:"トッキ", emoji:"🐰", cat:"動物", lv:"かんたん" },
+  { id:4, kr:"새", ruby:"セ", emoji:"🐦", cat:"動物", lv:"かんたん" },
+  { id:5, kr:"물고기", ruby:"ムルコギ", emoji:"🐟", cat:"動物", lv:"かんたん" },
+  { id:16, kr:"돼지", ruby:"トェジ", emoji:"🐷", cat:"動物", lv:"かんたん" },
+  { id:17, kr:"개구리", ruby:"ケグリ", emoji:"🐸", cat:"動物", lv:"かんたん" },
+  { id:18, kr:"코끼리", ruby:"コッキリ", emoji:"🐘", cat:"動物", lv:"かんたん" },
+  { id:19, kr:"원숭이", ruby:"ウォンスンイ", emoji:"🐵", cat:"動物", lv:"かんたん" },
+  { id:20, kr:"곰", ruby:"コム", emoji:"🐻", cat:"動物", lv:"かんたん" },
+  { id:21, kr:"사자", ruby:"サジャ", emoji:"🦁", cat:"動物", lv:"かんたん" },
+  { id:22, kr:"거북이", ruby:"コブギ", emoji:"🐢", cat:"動物", lv:"かんたん" },
   // 食べ物 (12)
-  { id:6, kr:"사과", ruby:"サグァ", en:"apple", emoji:"🍎", cat:"食べ物" },
-  { id:7, kr:"바나나", ruby:"パナナ", en:"banana", emoji:"🍌", cat:"食べ物" },
-  { id:8, kr:"딸기", ruby:"ッタルギ", en:"strawberry", emoji:"🍓", cat:"食べ物" },
-  { id:9, kr:"빵", ruby:"ッパン", en:"bread", emoji:"🍞", cat:"食べ物" },
-  { id:10, kr:"우유", ruby:"ウユ", en:"milk", emoji:"🥛", cat:"食べ物" },
-  { id:23, kr:"밥", ruby:"パプ", en:"rice", emoji:"🍚", cat:"食べ物" },
-  { id:24, kr:"케이크", ruby:"ケイク", en:"cake", emoji:"🍰", cat:"食べ物" },
-  { id:25, kr:"아이스크림", ruby:"アイスクリム", en:"icecream", emoji:"🍦", cat:"食べ物" },
-  { id:26, kr:"귤", ruby:"キュル", en:"mandarin", emoji:"🍊", cat:"食べ物" },
-  { id:27, kr:"피자", ruby:"ピジャ", en:"pizza", emoji:"🍕", cat:"食べ物" },
-  { id:28, kr:"도넛", ruby:"トノッ", en:"donut", emoji:"🍩", cat:"食べ物" },
-  { id:29, kr:"달걀", ruby:"タルギャル", en:"egg", emoji:"🥚", cat:"食べ物" },
+  { id:6, kr:"사과", ruby:"サグァ", emoji:"🍎", cat:"食べ物", lv:"かんたん" },
+  { id:7, kr:"바나나", ruby:"パナナ", emoji:"🍌", cat:"食べ物", lv:"かんたん" },
+  { id:8, kr:"딸기", ruby:"ッタルギ", emoji:"🍓", cat:"食べ物", lv:"かんたん" },
+  { id:9, kr:"빵", ruby:"ッパン", emoji:"🍞", cat:"食べ物", lv:"かんたん" },
+  { id:10, kr:"우유", ruby:"ウユ", emoji:"🥛", cat:"食べ物", lv:"かんたん" },
+  { id:23, kr:"밥", ruby:"パプ", emoji:"🍚", cat:"食べ物", lv:"かんたん" },
+  { id:24, kr:"케이크", ruby:"ケイク", emoji:"🍰", cat:"食べ物", lv:"かんたん" },
+  { id:25, kr:"아이스크림", ruby:"アイスクリム", emoji:"🍦", cat:"食べ物", lv:"かんたん" },
+  { id:26, kr:"귤", ruby:"キュル", emoji:"🍊", cat:"食べ物", lv:"かんたん" },
+  { id:27, kr:"피자", ruby:"ピジャ", emoji:"🍕", cat:"食べ物", lv:"かんたん" },
+  { id:28, kr:"도넛", ruby:"トノッ", emoji:"🍩", cat:"食べ物", lv:"かんたん" },
+  { id:29, kr:"달걀", ruby:"タルギャル", emoji:"🥚", cat:"食べ物", lv:"かんたん" },
   // 自然 (5)
-  { id:11, kr:"별", ruby:"ピョル", en:"star", emoji:"⭐", cat:"自然" },
-  { id:12, kr:"해", ruby:"ヘ", en:"sun", emoji:"☀️", cat:"自然" },
-  { id:13, kr:"달", ruby:"タル", en:"moon", emoji:"🌙", cat:"自然" },
-  { id:14, kr:"꽃", ruby:"ッコッ", en:"flower", emoji:"🌸", cat:"自然" },
-  { id:15, kr:"나무", ruby:"ナム", en:"tree", emoji:"🌳", cat:"自然" },
+  { id:11, kr:"별", ruby:"ピョル", emoji:"⭐", cat:"自然", lv:"かんたん" },
+  { id:12, kr:"해", ruby:"ヘ", emoji:"☀️", cat:"自然", lv:"かんたん" },
+  { id:13, kr:"달", ruby:"タル", emoji:"🌙", cat:"自然", lv:"かんたん" },
+  { id:14, kr:"꽃", ruby:"ッコッ", emoji:"🌸", cat:"自然", lv:"かんたん" },
+  { id:15, kr:"나무", ruby:"ナム", emoji:"🌳", cat:"自然", lv:"かんたん" },
+
+  // ── ちゅうきゅう ──
+  // 動物 (6)
+  { id:30, kr:"여우", ruby:"ヨウ", emoji:"🦊", cat:"動物", lv:"ちゅうきゅう" },
+  { id:31, kr:"펭귄", ruby:"ペングィン", emoji:"🐧", cat:"動物", lv:"ちゅうきゅう" },
+  { id:32, kr:"나비", ruby:"ナビ", emoji:"🦋", cat:"動物", lv:"ちゅうきゅう" },
+  { id:33, kr:"벌", ruby:"ポル", emoji:"🐝", cat:"動物", lv:"ちゅうきゅう" },
+  { id:34, kr:"돌고래", ruby:"トルゴレ", emoji:"🐬", cat:"動物", lv:"ちゅうきゅう" },
+  { id:35, kr:"게", ruby:"ケ", emoji:"🦀", cat:"動物", lv:"ちゅうきゅう" },
+  // 食べ物 (6)
+  { id:36, kr:"라면", ruby:"ラミョン", emoji:"🍜", cat:"食べ物", lv:"ちゅうきゅう" },
+  { id:37, kr:"당근", ruby:"タングン", emoji:"🥕", cat:"食べ物", lv:"ちゅうきゅう" },
+  { id:38, kr:"수박", ruby:"スバク", emoji:"🍉", cat:"食べ物", lv:"ちゅうきゅう" },
+  { id:39, kr:"치즈", ruby:"チジュ", emoji:"🧀", cat:"食べ物", lv:"ちゅうきゅう" },
+  { id:40, kr:"포도", ruby:"ポド", emoji:"🍇", cat:"食べ物", lv:"ちゅうきゅう" },
+  { id:41, kr:"옥수수", ruby:"オクスス", emoji:"🌽", cat:"食べ物", lv:"ちゅうきゅう" },
+  // のりもの (4)
+  { id:42, kr:"자동차", ruby:"チャドンチャ", emoji:"🚗", cat:"のりもの", lv:"ちゅうきゅう" },
+  { id:43, kr:"비행기", ruby:"ピヘンギ", emoji:"✈️", cat:"のりもの", lv:"ちゅうきゅう" },
+  { id:44, kr:"배", ruby:"ペ", emoji:"🚢", cat:"のりもの", lv:"ちゅうきゅう" },
+  { id:45, kr:"기차", ruby:"キチャ", emoji:"🚂", cat:"のりもの", lv:"ちゅうきゅう" },
+  // みのまわり (4)
+  { id:46, kr:"책", ruby:"チェク", emoji:"📚", cat:"みのまわり", lv:"ちゅうきゅう" },
+  { id:47, kr:"연필", ruby:"ヨンピル", emoji:"✏️", cat:"みのまわり", lv:"ちゅうきゅう" },
+  { id:48, kr:"시계", ruby:"シゲ", emoji:"⏰", cat:"みのまわり", lv:"ちゅうきゅう" },
+  { id:49, kr:"가방", ruby:"カバン", emoji:"🎒", cat:"みのまわり", lv:"ちゅうきゅう" },
 ];
+
+const LEVELS = ["かんたん", "ちゅうきゅう"];
+const CATS_BY_LEVEL = {
+  "かんたん": ["すべて", "動物", "食べ物", "自然"],
+  "ちゅうきゅう": ["すべて", "動物", "食べ物", "のりもの", "みのまわり"],
+};
+const ORDER_MODES = ["じゅんばん", "ランダム"];
 
 const shuffle = (a) => {
   const b = [...a];
@@ -66,7 +100,7 @@ const speakKorean = (text, enabled) => {
 const css = {
   wrap: { width: "100%", maxWidth: 480, margin: "0 auto", padding: "16px clamp(8px, 3vw, 20px)", fontFamily: "system-ui, -apple-system, sans-serif", boxSizing: "border-box" },
   btn: (bg) => ({ padding: "10px clamp(16px, 4vw, 24px)", fontSize: "clamp(14px, 3.5vw, 16px)", fontWeight: 700, color: "#FFF", background: bg, border: "none", borderRadius: 30, cursor: "pointer", boxShadow: "0 3px 10px rgba(0,0,0,0.12)", minHeight: 44 }),
-  chip: (active, color) => ({ padding: "6px clamp(10px, 2.5vw, 14px)", fontSize: "clamp(11px, 2.8vw, 13px)", fontWeight: 700, borderRadius: 20, border: "2px solid", borderColor: active ? color : "#DDD", background: active ? (color === "#FF6B35" ? "#FFF3E0" : color === "#5C6BC0" ? "#E8EAF6" : "#F3E5F5") : "#FFF", color: active ? color : "#888", cursor: "pointer", minHeight: 36 }),
+  chip: (active, color) => ({ padding: "6px clamp(10px, 2.5vw, 14px)", fontSize: "clamp(11px, 2.8vw, 13px)", fontWeight: 700, borderRadius: 20, border: "2px solid", borderColor: active ? color : "#DDD", background: active ? (color === "#FF6B35" ? "#FFF3E0" : color === "#5C6BC0" ? "#E8EAF6" : color === "#AB47BC" ? "#F3E5F5" : color === "#00897B" ? "#E0F2F1" : "#FFF") : "#FFF", color: active ? color : "#888", cursor: "pointer", minHeight: 36 }),
   navBtn: (bg) => ({ padding: 0, fontSize: "clamp(18px, 5vw, 24px)", fontWeight: 700, color: "#FFF", background: bg, border: "none", borderRadius: "50%", cursor: "pointer", boxShadow: "0 3px 10px rgba(0,0,0,0.12)", width: "clamp(44px, 12vw, 56px)", height: "clamp(44px, 12vw, 56px)", display: "flex", alignItems: "center", justifyContent: "center", minHeight: 44 }),
 };
 
@@ -85,12 +119,10 @@ function Flashcard({ card, flipped, onFlip, showRuby }) {
   return (
     <div onClick={onFlip} style={{ perspective: 800, width: "clamp(220px, 65vw, 280px)", height: "clamp(290px, 85vw, 360px)", cursor: "pointer", margin: "0 auto" }}>
       <div style={{ position: "relative", width: "100%", height: "100%", transition: "transform 0.5s", transformStyle: "preserve-3d", transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)" }}>
-        {/* Front */}
         <div style={{ position: "absolute", width: "100%", height: "100%", backfaceVisibility: "hidden", borderRadius: "clamp(16px, 4vw, 24px)", background: "linear-gradient(135deg, #FFF7E6 0%, #FFE8CC 100%)", border: "3px solid #FFB347", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 24px rgba(0,0,0,0.12)" }}>
           <div style={{ fontSize: "clamp(64px, 20vw, 100px)", lineHeight: 1 }}>{card.emoji}</div>
           <div style={{ marginTop: 16, fontSize: "clamp(11px, 2.8vw, 13px)", color: "#999", fontWeight: 600 }}>タップしてめくる</div>
         </div>
-        {/* Back */}
         <div style={{ position: "absolute", width: "100%", height: "100%", backfaceVisibility: "hidden", transform: "rotateY(180deg)", borderRadius: "clamp(16px, 4vw, 24px)", background: "linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%)", border: "3px solid #66BB6A", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 24px rgba(0,0,0,0.12)" }}>
           <div style={{ fontSize: "clamp(40px, 12vw, 56px)", lineHeight: 1 }}>{card.emoji}</div>
           <div style={{ marginTop: "clamp(12px, 3vw, 20px)", fontSize: "clamp(28px, 8vw, 40px)", fontWeight: 800, color: "#2E7D32", letterSpacing: 2 }}>{card.kr}</div>
@@ -103,11 +135,12 @@ function Flashcard({ card, flipped, onFlip, showRuby }) {
 }
 
 // ── Quiz ──
-function Quiz({ onBack, soundEnabled, showRuby }) {
-  const questions = useMemo(() => shuffle(CARDS).map((card) => {
-    const wrong = shuffle(CARDS.filter((c) => c.id !== card.id)).slice(0, 3);
+function Quiz({ onBack, soundEnabled, showRuby, level }) {
+  const pool = CARDS.filter((c) => c.lv === level);
+  const questions = useMemo(() => shuffle(pool).map((card) => {
+    const wrong = shuffle(pool.filter((c) => c.id !== card.id)).slice(0, 3);
     return { card, options: shuffle([card, ...wrong]) };
-  }), []);
+  }), [level]);
 
   const [qi, setQi] = useState(0);
   const [score, setScore] = useState(0);
@@ -184,11 +217,9 @@ function Quiz({ onBack, soundEnabled, showRuby }) {
 }
 
 // ── Main App ──
-const CATS = ["すべて", "動物", "食べ物", "自然"];
-const ORDER_MODES = ["じゅんばん", "ランダム"];
-
 export default function App() {
   const [mode, setMode] = useState("home");
+  const [level, setLevel] = useState("かんたん");
   const [ci, setCi] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [cat, setCat] = useState("すべて");
@@ -207,14 +238,21 @@ export default function App() {
     return () => clearTimeout(t);
   }, []);
 
-  const baseFiltered = cat === "すべて" ? CARDS : CARDS.filter((c) => c.cat === cat);
+  const cats = CATS_BY_LEVEL[level];
+  const lvCards = CARDS.filter((c) => c.lv === level);
+  const baseFiltered = cat === "すべて" ? lvCards : lvCards.filter((c) => c.cat === cat);
   const filtered = orderMode === "ランダム" ? shuffledCards : baseFiltered;
 
   const doShuffle = (cards) => { const s = shuffle(cards); setShuffledCards(s); return s; };
 
+  const handleLevelChange = (lv) => {
+    setLevel(lv); setCat("すべて"); setCi(0); setFlipped(false);
+    if (orderMode === "ランダム") doShuffle(CARDS.filter((c) => c.lv === lv));
+  };
+
   const handleCatChange = (c) => {
     setCat(c); setCi(0); setFlipped(false);
-    const base = c === "すべて" ? CARDS : CARDS.filter((x) => x.cat === c);
+    const base = c === "すべて" ? lvCards : lvCards.filter((x) => x.cat === c);
     if (orderMode === "ランダム") doShuffle(base);
   };
 
@@ -246,17 +284,34 @@ export default function App() {
     }
   };
 
+  const previewEmojis = lvCards.slice(0, 8);
+
   // ── Home ──
   if (mode === "home") {
     return (
       <div style={{ ...css.wrap, textAlign: "center", padding: "clamp(24px, 8vw, 40px) clamp(8px, 3vw, 20px)" }}>
         <div style={{ fontSize: "clamp(48px, 15vw, 72px)", marginBottom: 8 }}>🇰🇷</div>
         <h1 style={{ fontSize: "clamp(22px, 6vw, 28px)", color: "#333", margin: "0 0 4px" }}>かんこくご たんごカード</h1>
-        <p style={{ fontSize: "clamp(13px, 3.2vw, 15px)", color: "#777", margin: "0 0 clamp(24px, 6vw, 36px)" }}>たのしく かんこくごを おぼえよう！</p>
+        <p style={{ fontSize: "clamp(13px, 3.2vw, 15px)", color: "#777", margin: "0 0 clamp(16px, 4vw, 24px)" }}>たのしく かんこくごを おぼえよう！</p>
+
+        {/* Level select */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: "clamp(16px, 4vw, 24px)", flexWrap: "wrap" }}>
+          {LEVELS.map((lv) => (
+            <button key={lv} onClick={() => handleLevelChange(lv)} style={{
+              padding: "8px clamp(16px, 4vw, 24px)", fontSize: "clamp(14px, 3.5vw, 16px)", fontWeight: 700, borderRadius: 24,
+              border: "3px solid", borderColor: level === lv ? "#00897B" : "#DDD",
+              background: level === lv ? "#E0F2F1" : "#FFF", color: level === lv ? "#00897B" : "#999", cursor: "pointer", minHeight: 44,
+            }}>
+              {lv === "かんたん" ? "⭐ " : "⭐⭐ "}{lv}
+            </button>
+          ))}
+        </div>
+
         <div style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 280, margin: "0 auto" }}>
           <button onClick={() => { setMode("cards"); setCi(0); setFlipped(false); }} style={{ ...css.btn("#FF6B35"), padding: "14px 24px", fontSize: "clamp(16px, 4vw, 18px)" }}>📚 カードでまなぶ</button>
           <button onClick={() => setMode("quiz")} style={{ ...css.btn("#43A047"), padding: "14px 24px", fontSize: "clamp(16px, 4vw, 18px)" }}>🎮 クイズであそぶ</button>
         </div>
+
         {/* Settings */}
         <div style={{ marginTop: "clamp(20px, 5vw, 32px)", display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
           <ToggleBtn enabled={soundEnabled} onToggle={() => setSoundEnabled((s) => !s)} available={voiceAvailable} onLabel="🔊 おとオン" offLabel="🔇 おとオフ" />
@@ -264,8 +319,9 @@ export default function App() {
         </div>
         {!voiceAvailable && <p style={{ marginTop: 12, fontSize: 12, color: "#999" }}>※ この端末では韓国語の音声が利用できません</p>}
         <div style={{ marginTop: "clamp(20px, 5vw, 32px)", display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap" }}>
-          {CARDS.slice(0, 8).map((c) => <span key={c.id} style={{ fontSize: "clamp(22px, 6vw, 28px)" }}>{c.emoji}</span>)}
+          {previewEmojis.map((c) => <span key={c.id} style={{ fontSize: "clamp(22px, 6vw, 28px)" }}>{c.emoji}</span>)}
         </div>
+        <div style={{ marginTop: 8, fontSize: "clamp(12px, 3vw, 14px)", color: "#AAA" }}>{lvCards.length}もじ</div>
       </div>
     );
   }
@@ -274,13 +330,13 @@ export default function App() {
   if (mode === "quiz") {
     return (
       <div style={css.wrap}>
-        <Quiz onBack={() => setMode("home")} soundEnabled={soundEnabled && voiceAvailable} showRuby={showRuby} />
+        <Quiz onBack={() => setMode("home")} soundEnabled={soundEnabled && voiceAvailable} showRuby={showRuby} level={level} />
       </div>
     );
   }
 
   // ── Cards ──
-  const card = filtered.length > 0 ? filtered[ci % filtered.length] : CARDS[0];
+  const card = filtered.length > 0 ? filtered[ci % filtered.length] : lvCards[0];
 
   return (
     <div style={css.wrap}>
@@ -294,10 +350,17 @@ export default function App() {
         <span style={{ fontSize: "clamp(13px, 3.2vw, 15px)", fontWeight: 700, color: "#666" }}>{(ci % filtered.length) + 1} / {filtered.length}</span>
       </div>
 
-      {/* Filters */}
+      {/* Level */}
       <div style={{ display: "flex", justifyContent: "center", gap: "clamp(4px, 1.5vw, 8px)", marginBottom: 10, flexWrap: "wrap" }}>
-        {CATS.map((c) => <button key={c} onClick={() => handleCatChange(c)} style={css.chip(cat === c, "#FF6B35")}>{c}</button>)}
+        {LEVELS.map((lv) => <button key={lv} onClick={() => handleLevelChange(lv)} style={css.chip(level === lv, "#00897B")}>{lv === "かんたん" ? "⭐" : "⭐⭐"} {lv}</button>)}
       </div>
+
+      {/* Category */}
+      <div style={{ display: "flex", justifyContent: "center", gap: "clamp(4px, 1.5vw, 8px)", marginBottom: 10, flexWrap: "wrap" }}>
+        {cats.map((c) => <button key={c} onClick={() => handleCatChange(c)} style={css.chip(cat === c, "#FF6B35")}>{c}</button>)}
+      </div>
+
+      {/* Order */}
       <div style={{ display: "flex", justifyContent: "center", gap: "clamp(4px, 1.5vw, 8px)", marginBottom: 20 }}>
         {ORDER_MODES.map((o) => <button key={o} onClick={() => handleOrderChange(o)} style={css.chip(orderMode === o, "#5C6BC0")}>{o === "ランダム" ? "🔀 " : "📋 "}{o}</button>)}
       </div>
