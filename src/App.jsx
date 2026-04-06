@@ -65,23 +65,23 @@ const speakKorean = (text, enabled) => {
 // ── Shared styles ──
 const css = {
   wrap: { width: "100%", maxWidth: 480, margin: "0 auto", padding: "16px clamp(8px, 3vw, 20px)", fontFamily: "system-ui, -apple-system, sans-serif", boxSizing: "border-box" },
-  btn: (bg) => ({ padding: "10px clamp(16px, 4vw, 24px)", fontSize: "clamp(14px, 3.5vw, 16px)", fontWeight: 700, color: "#FFF", background: bg, border: "none", borderRadius: 30, cursor: "pointer", boxShadow: "0 3px 10px rgba(0,0,0,0.12)", minHeight: 44, }),
-  chip: (active, color) => ({ padding: "6px clamp(10px, 2.5vw, 14px)", fontSize: "clamp(11px, 2.8vw, 13px)", fontWeight: 700, borderRadius: 20, border: "2px solid", borderColor: active ? color : "#DDD", background: active ? (color === "#FF6B35" ? "#FFF3E0" : color === "#5C6BC0" ? "#E8EAF6" : "#F3E5F5") : "#FFF", color: active ? color : "#888", cursor: "pointer", minHeight: 36, }),
-  navBtn: (bg) => ({ ...css.btn(bg), width: "clamp(44px, 12vw, 56px)", height: "clamp(44px, 12vw, 56px)", borderRadius: "50%", padding: 0, fontSize: "clamp(18px, 5vw, 24px)", display: "flex", alignItems: "center", justifyContent: "center" }),
+  btn: (bg) => ({ padding: "10px clamp(16px, 4vw, 24px)", fontSize: "clamp(14px, 3.5vw, 16px)", fontWeight: 700, color: "#FFF", background: bg, border: "none", borderRadius: 30, cursor: "pointer", boxShadow: "0 3px 10px rgba(0,0,0,0.12)", minHeight: 44 }),
+  chip: (active, color) => ({ padding: "6px clamp(10px, 2.5vw, 14px)", fontSize: "clamp(11px, 2.8vw, 13px)", fontWeight: 700, borderRadius: 20, border: "2px solid", borderColor: active ? color : "#DDD", background: active ? (color === "#FF6B35" ? "#FFF3E0" : color === "#5C6BC0" ? "#E8EAF6" : "#F3E5F5") : "#FFF", color: active ? color : "#888", cursor: "pointer", minHeight: 36 }),
+  navBtn: (bg) => ({ padding: 0, fontSize: "clamp(18px, 5vw, 24px)", fontWeight: 700, color: "#FFF", background: bg, border: "none", borderRadius: "50%", cursor: "pointer", boxShadow: "0 3px 10px rgba(0,0,0,0.12)", width: "clamp(44px, 12vw, 56px)", height: "clamp(44px, 12vw, 56px)", display: "flex", alignItems: "center", justifyContent: "center", minHeight: 44 }),
 };
 
-// ── Sound Toggle ──
-function SoundToggle({ enabled, onToggle, available }) {
+// ── Toggle Button ──
+function ToggleBtn({ enabled, onToggle, available, onLabel, offLabel }) {
   return (
-    <button onClick={onToggle} disabled={!available}
-      style={{ ...css.chip(enabled && available, "#AB47BC"), opacity: available ? 1 : 0.5, cursor: available ? "pointer" : "not-allowed" }}>
-      {enabled && available ? "🔊 おとオン" : "🔇 おとオフ"}
+    <button onClick={onToggle} disabled={available === false}
+      style={{ ...css.chip(enabled && available !== false, "#AB47BC"), opacity: available === false ? 0.5 : 1, cursor: available === false ? "not-allowed" : "pointer" }}>
+      {enabled && available !== false ? onLabel : offLabel}
     </button>
   );
 }
 
 // ── Flashcard ──
-function Flashcard({ card, flipped, onFlip }) {
+function Flashcard({ card, flipped, onFlip, showRuby }) {
   return (
     <div onClick={onFlip} style={{ perspective: 800, width: "clamp(220px, 65vw, 280px)", height: "clamp(290px, 85vw, 360px)", cursor: "pointer", margin: "0 auto" }}>
       <div style={{ position: "relative", width: "100%", height: "100%", transition: "transform 0.5s", transformStyle: "preserve-3d", transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)" }}>
@@ -94,7 +94,7 @@ function Flashcard({ card, flipped, onFlip }) {
         <div style={{ position: "absolute", width: "100%", height: "100%", backfaceVisibility: "hidden", transform: "rotateY(180deg)", borderRadius: "clamp(16px, 4vw, 24px)", background: "linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%)", border: "3px solid #66BB6A", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 24px rgba(0,0,0,0.12)" }}>
           <div style={{ fontSize: "clamp(40px, 12vw, 56px)", lineHeight: 1 }}>{card.emoji}</div>
           <div style={{ marginTop: "clamp(12px, 3vw, 20px)", fontSize: "clamp(28px, 8vw, 40px)", fontWeight: 800, color: "#2E7D32", letterSpacing: 2 }}>{card.kr}</div>
-          <div style={{ marginTop: 8, fontSize: "clamp(16px, 4vw, 20px)", color: "#558B2F", fontWeight: 600 }}>{card.ruby}</div>
+          {showRuby && <div style={{ marginTop: 8, fontSize: "clamp(16px, 4vw, 20px)", color: "#558B2F", fontWeight: 600 }}>{card.ruby}</div>}
           <div style={{ marginTop: 10, fontSize: "clamp(18px, 4.5vw, 22px)", opacity: 0.5 }}>🔊</div>
         </div>
       </div>
@@ -103,7 +103,7 @@ function Flashcard({ card, flipped, onFlip }) {
 }
 
 // ── Quiz ──
-function Quiz({ onBack, soundEnabled }) {
+function Quiz({ onBack, soundEnabled, showRuby }) {
   const questions = useMemo(() => shuffle(CARDS).map((card) => {
     const wrong = shuffle(CARDS.filter((c) => c.id !== card.id)).slice(0, 3);
     return { card, options: shuffle([card, ...wrong]) };
@@ -156,7 +156,7 @@ function Quiz({ onBack, soundEnabled }) {
       </div>
       <div style={{ fontSize: "clamp(15px, 4vw, 18px)", fontWeight: 700, color: "#444", marginBottom: 8 }}>このことばは どれ？</div>
       <div style={{ fontSize: "clamp(32px, 9vw, 44px)", fontWeight: 800, color: "#2E7D32", margin: "4px 0" }}>{cur.card.kr}</div>
-      <div style={{ fontSize: "clamp(15px, 4vw, 18px)", color: "#558B2F", marginBottom: 4, fontWeight: 600 }}>{cur.card.ruby}</div>
+      {showRuby && <div style={{ fontSize: "clamp(15px, 4vw, 18px)", color: "#558B2F", marginBottom: 4, fontWeight: 600 }}>{cur.card.ruby}</div>}
       <button onClick={() => speakKorean(cur.card.kr, true)} disabled={!soundEnabled}
         style={{ fontSize: "clamp(20px, 5vw, 24px)", background: "none", border: "none", cursor: "pointer", marginBottom: 12, opacity: soundEnabled ? 1 : 0.3, minHeight: 44, minWidth: 44 }}>🔊</button>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(8px, 2.5vw, 14px)", maxWidth: "min(340px, 90vw)", margin: "0 auto" }}>
@@ -197,6 +197,7 @@ export default function App() {
   const [transitioning, setTransitioning] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [voiceAvailable, setVoiceAvailable] = useState(false);
+  const [showRuby, setShowRuby] = useState(true);
 
   useEffect(() => {
     const check = () => setVoiceAvailable(hasKoreanVoice());
@@ -256,8 +257,13 @@ export default function App() {
           <button onClick={() => { setMode("cards"); setCi(0); setFlipped(false); }} style={{ ...css.btn("#FF6B35"), padding: "14px 24px", fontSize: "clamp(16px, 4vw, 18px)" }}>📚 カードでまなぶ</button>
           <button onClick={() => setMode("quiz")} style={{ ...css.btn("#43A047"), padding: "14px 24px", fontSize: "clamp(16px, 4vw, 18px)" }}>🎮 クイズであそぶ</button>
         </div>
-        {!voiceAvailable && <p style={{ marginTop: 24, fontSize: 12, color: "#999" }}>※ この端末では韓国語の音声が利用できません</p>}
-        <div style={{ marginTop: "clamp(24px, 6vw, 40px)", display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap" }}>
+        {/* Settings */}
+        <div style={{ marginTop: "clamp(20px, 5vw, 32px)", display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
+          <ToggleBtn enabled={soundEnabled} onToggle={() => setSoundEnabled((s) => !s)} available={voiceAvailable} onLabel="🔊 おとオン" offLabel="🔇 おとオフ" />
+          <ToggleBtn enabled={showRuby} onToggle={() => setShowRuby((s) => !s)} onLabel="カタカナあり" offLabel="カタカナなし" />
+        </div>
+        {!voiceAvailable && <p style={{ marginTop: 12, fontSize: 12, color: "#999" }}>※ この端末では韓国語の音声が利用できません</p>}
+        <div style={{ marginTop: "clamp(20px, 5vw, 32px)", display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap" }}>
           {CARDS.slice(0, 8).map((c) => <span key={c.id} style={{ fontSize: "clamp(22px, 6vw, 28px)" }}>{c.emoji}</span>)}
         </div>
       </div>
@@ -268,7 +274,7 @@ export default function App() {
   if (mode === "quiz") {
     return (
       <div style={css.wrap}>
-        <Quiz onBack={() => setMode("home")} soundEnabled={soundEnabled && voiceAvailable} />
+        <Quiz onBack={() => setMode("home")} soundEnabled={soundEnabled && voiceAvailable} showRuby={showRuby} />
       </div>
     );
   }
@@ -281,7 +287,10 @@ export default function App() {
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, gap: 8, flexWrap: "wrap" }}>
         <button onClick={() => setMode("home")} style={{ ...css.btn("#78909C"), padding: "6px 14px", fontSize: "clamp(12px, 3vw, 14px)" }}>← ホーム</button>
-        <SoundToggle enabled={soundEnabled} onToggle={() => setSoundEnabled((s) => !s)} available={voiceAvailable} />
+        <div style={{ display: "flex", gap: 6 }}>
+          <ToggleBtn enabled={soundEnabled} onToggle={() => setSoundEnabled((s) => !s)} available={voiceAvailable} onLabel="🔊" offLabel="🔇" />
+          <ToggleBtn enabled={showRuby} onToggle={() => setShowRuby((s) => !s)} onLabel="カ" offLabel="カ" />
+        </div>
         <span style={{ fontSize: "clamp(13px, 3.2vw, 15px)", fontWeight: 700, color: "#666" }}>{(ci % filtered.length) + 1} / {filtered.length}</span>
       </div>
 
@@ -293,7 +302,7 @@ export default function App() {
         {ORDER_MODES.map((o) => <button key={o} onClick={() => handleOrderChange(o)} style={css.chip(orderMode === o, "#5C6BC0")}>{o === "ランダム" ? "🔀 " : "📋 "}{o}</button>)}
       </div>
 
-      <Flashcard card={card} flipped={flipped} onFlip={handleFlip} />
+      <Flashcard card={card} flipped={flipped} onFlip={handleFlip} showRuby={showRuby} />
 
       {/* Nav */}
       <div style={{ display: "flex", justifyContent: "center", gap: "clamp(16px, 5vw, 20px)", marginTop: "clamp(16px, 5vw, 24px)" }}>
