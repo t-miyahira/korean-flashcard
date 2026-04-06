@@ -84,6 +84,15 @@ const hasKoreanVoice = () => {
   return speechSynthesis.getVoices().some((v) => v.lang.startsWith("ko"));
 };
 
+const pickKoreanFemaleVoice = () => {
+  if (typeof speechSynthesis === "undefined") return null;
+  const all = speechSynthesis.getVoices().filter((v) => v.lang.startsWith("ko"));
+  if (all.length === 0) return null;
+  const femaleHints = ["female", "여성", "yuna", "sunhi", "heami", "sora", "jian", "google 한국의"];
+  const female = all.find((v) => femaleHints.some((h) => v.name.toLowerCase().includes(h)));
+  return female || all[0];
+};
+
 const speakKorean = (text, enabled) => {
   if (!enabled || typeof speechSynthesis === "undefined") return;
   speechSynthesis.cancel();
@@ -91,8 +100,8 @@ const speakKorean = (text, enabled) => {
   u.lang = "ko-KR";
   u.rate = 0.85;
   u.pitch = 1.1;
-  const v = speechSynthesis.getVoices().filter((v) => v.lang.startsWith("ko"));
-  if (v.length > 0) u.voice = v[0];
+  const voice = pickKoreanFemaleVoice();
+  if (voice) u.voice = voice;
   speechSynthesis.speak(u);
 };
 
