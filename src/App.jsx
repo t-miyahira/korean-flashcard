@@ -387,7 +387,7 @@ export default function App() {
         <div style={{ marginTop: "clamp(20px, 5vw, 32px)", display: "flex", justifyContent: "center", gap: 8, flexWrap: "wrap" }}>
           {previewEmojis.map((c) => <span key={c.id} style={{ fontSize: "clamp(22px, 6vw, 28px)" }}>{c.emoji}</span>)}
         </div>
-        <div style={{ marginTop: 8, fontSize: "clamp(12px, 3vw, 14px)", color: "#AAA" }}>{lvCards.length}もじ</div>
+        <div style={{ marginTop: 8, fontSize: "clamp(12px, 3vw, 14px)", color: "#AAA" }}>{lvCards.length}たんご</div>
       </div>
     );
   }
