@@ -204,7 +204,10 @@ function Quiz({ onBack, soundEnabled, showRuby, level, lang }) {
     return (
       <div style={{ textAlign: "center", padding: "clamp(16px, 5vw, 32px)" }}>
         <div style={{ fontSize: "clamp(48px, 14vw, 64px)" }}>🏆</div>
-        <h2 style={{ fontSize: "clamp(22px, 6vw, 28px)", color: "#333", margin: "16px 0 8px" }}>けっか</h2>
+        <div style={{ fontSize: "clamp(13px, 3.2vw, 15px)", color: "#888", fontWeight: 600, marginTop: 8 }}>
+          {lang === "kr" ? "🇰🇷 かんこくご" : "🇺🇸 えいご"}　{level === "かんたん" ? "⭐ かんたん" : "⭐⭐ ちゅうきゅう"}
+        </div>
+        <h2 style={{ fontSize: "clamp(22px, 6vw, 28px)", color: "#333", margin: "12px 0 8px" }}>けっか</h2>
         <div style={{ fontSize: "clamp(36px, 10vw, 48px)", fontWeight: 800, color: "#FF6B35" }}>{score} / {questions.length}</div>
         <div style={{ fontSize: "clamp(18px, 5vw, 24px)", margin: "8px 0 24px", color: "#555" }}>{msg}</div>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
