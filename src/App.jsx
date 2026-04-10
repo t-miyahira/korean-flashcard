@@ -284,21 +284,37 @@ export default function App() {
 
   const doShuffle = (cards) => { const s = shuffle(cards); setShuffledCards(s); return s; };
 
-  const handleLevelChange = (lv) => {
-    setLevel(lv); setCat("すべて"); setCi(0); setFlipped(false);
-    if (orderMode === "ランダム") doShuffle(CARDS.filter((c) => c.lv === lv));
+  // 裏返し中なら先にフリップを戻してからコールバック実行
+  const safeFlipThen = (fn) => {
+    if (transitioning) return;
+    if (flipped) {
+      setFlipped(false);
+      setTransitioning(true);
+      setTimeout(() => { fn(); setTransitioning(false); }, 500);
+    } else {
+      fn();
+    }
   };
 
-  const handleCatChange = (c) => {
-    setCat(c); setCi(0); setFlipped(false);
+  const handleLevelChange = (lv) => safeFlipThen(() => {
+    setLevel(lv); setCat("すべて"); setCi(0);
+    if (orderMode === "ランダム") doShuffle(CARDS.filter((c) => c.lv === lv));
+  });
+
+  const handleCatChange = (c) => safeFlipThen(() => {
+    setCat(c); setCi(0);
     const base = c === "すべて" ? lvCards : lvCards.filter((x) => x.cat === c);
     if (orderMode === "ランダム") doShuffle(base);
-  };
+  });
 
-  const handleOrderChange = (o) => {
-    setOrderMode(o); setCi(0); setFlipped(false);
+  const handleOrderChange = (o) => safeFlipThen(() => {
+    setOrderMode(o); setCi(0);
     if (o === "ランダム") doShuffle(baseFiltered);
-  };
+  });
+
+  const handleLangChange = (l) => safeFlipThen(() => {
+    setLang(l);
+  });
 
   const handleFlip = () => {
     const next = !flipped;
@@ -400,7 +416,7 @@ export default function App() {
 
       {/* Language */}
       <div style={{ display: "flex", justifyContent: "center", gap: "clamp(4px, 1.5vw, 8px)", marginBottom: 10, flexWrap: "wrap" }}>
-        {LANGS.map((l) => <button key={l.id} onClick={() => { setLang(l.id); setFlipped(false); }} style={css.chip(lang === l.id, "#1976D2")}>{l.label}</button>)}
+        {LANGS.map((l) => <button key={l.id} onClick={() => handleLangChange(l.id)} style={css.chip(lang === l.id, "#1976D2")}>{l.label}</button>)}
       </div>
 
       {/* Level */}
