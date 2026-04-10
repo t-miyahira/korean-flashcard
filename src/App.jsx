@@ -419,24 +419,16 @@ export default function App() {
         <span style={{ fontSize: "clamp(13px, 3.2vw, 15px)", fontWeight: 700, color: "#666" }}>{(ci % filtered.length) + 1} / {filtered.length}</span>
       </div>
 
-      {/* Language */}
-      <div style={{ display: "flex", justifyContent: "center", gap: "clamp(4px, 1.5vw, 8px)", marginBottom: 10, flexWrap: "wrap" }}>
+      {/* Language / Level / Random - 1 line */}
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "clamp(4px, 1.5vw, 8px)", marginBottom: 10, flexWrap: "wrap" }}>
         {LANGS.map((l) => <button key={l.id} onClick={() => handleLangChange(l.id)} style={css.chip(lang === l.id, "#1976D2")}>{l.label}</button>)}
-      </div>
-
-      {/* Level */}
-      <div style={{ display: "flex", justifyContent: "center", gap: "clamp(4px, 1.5vw, 8px)", marginBottom: 10, flexWrap: "wrap" }}>
-        {LEVELS.map((lv) => <button key={lv} onClick={() => handleLevelChange(lv)} style={css.chip(level === lv, "#00897B")}>{lv === "かんたん" ? "⭐" : "⭐⭐"} {lv}</button>)}
+        {LEVELS.map((lv) => <button key={lv} onClick={() => handleLevelChange(lv)} style={css.chip(level === lv, "#00897B")}>{lv === "かんたん" ? "⭐" : "⭐⭐"}</button>)}
+        <button onClick={() => handleOrderChange(orderMode === "ランダム" ? "じゅんばん" : "ランダム")} style={css.chip(orderMode === "ランダム", "#5C6BC0")}>🔀</button>
       </div>
 
       {/* Category */}
       <div style={{ display: "flex", justifyContent: "center", gap: "clamp(4px, 1.5vw, 8px)", marginBottom: 10, flexWrap: "wrap" }}>
         {cats.map((c) => <button key={c} onClick={() => handleCatChange(c)} style={css.chip(cat === c, "#FF6B35")}>{c}</button>)}
-      </div>
-
-      {/* Order */}
-      <div style={{ display: "flex", justifyContent: "center", gap: "clamp(4px, 1.5vw, 8px)", marginBottom: 20 }}>
-        {ORDER_MODES.map((o) => <button key={o} onClick={() => handleOrderChange(o)} style={css.chip(orderMode === o, "#5C6BC0")}>{o === "ランダム" ? "🔀 " : "📋 "}{o}</button>)}
       </div>
 
       <Flashcard card={card} flipped={flipped} onFlip={handleFlip} showRuby={showRuby} lang={lang} />
