@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 
 const CARDS = [
   // ── かんたん ──
-  // 動物 (12)
+  // 動物 (14)
   { id:1, kr:"강아지", ruby:"カンアジ", emoji:"🐶", cat:"動物", lv:"かんたん" },
   { id:2, kr:"고양이", ruby:"コヤンイ", emoji:"🐱", cat:"動物", lv:"かんたん" },
   { id:3, kr:"토끼", ruby:"トッキ", emoji:"🐰", cat:"動物", lv:"かんたん" },
@@ -15,7 +15,9 @@ const CARDS = [
   { id:20, kr:"곰", ruby:"コム", emoji:"🐻", cat:"動物", lv:"かんたん" },
   { id:21, kr:"사자", ruby:"サジャ", emoji:"🦁", cat:"動物", lv:"かんたん" },
   { id:22, kr:"거북이", ruby:"コブギ", emoji:"🐢", cat:"動物", lv:"かんたん" },
-  // 食べ物 (12)
+  { id:54, kr:"병아리", ruby:"ピョンアリ", emoji:"🐤", cat:"動物", lv:"かんたん" },
+  { id:55, kr:"쥐", ruby:"チュィ", emoji:"🐭", cat:"動物", lv:"かんたん" },
+  // 食べ物 (14)
   { id:6, kr:"사과", ruby:"サグァ", emoji:"🍎", cat:"食べ物", lv:"かんたん" },
   { id:7, kr:"바나나", ruby:"パナナ", emoji:"🍌", cat:"食べ物", lv:"かんたん" },
   { id:8, kr:"딸기", ruby:"ッタルギ", emoji:"🍓", cat:"食べ物", lv:"かんたん" },
@@ -28,12 +30,16 @@ const CARDS = [
   { id:27, kr:"피자", ruby:"ピジャ", emoji:"🍕", cat:"食べ物", lv:"かんたん" },
   { id:28, kr:"도넛", ruby:"トノッ", emoji:"🍩", cat:"食べ物", lv:"かんたん" },
   { id:29, kr:"달걀", ruby:"タルギャル", emoji:"🥚", cat:"食べ物", lv:"かんたん" },
-  // 自然 (5)
+  { id:52, kr:"복숭아", ruby:"ポクスンア", emoji:"🍑", cat:"食べ物", lv:"かんたん" },
+  { id:53, kr:"초콜릿", ruby:"チョコルリッ", emoji:"🍫", cat:"食べ物", lv:"かんたん" },
+  // 自然 (7)
   { id:11, kr:"별", ruby:"ピョル", emoji:"⭐", cat:"自然", lv:"かんたん" },
   { id:12, kr:"해", ruby:"ヘ", emoji:"☀️", cat:"自然", lv:"かんたん" },
   { id:13, kr:"달", ruby:"タル", emoji:"🌙", cat:"自然", lv:"かんたん" },
   { id:14, kr:"꽃", ruby:"ッコッ", emoji:"🌸", cat:"自然", lv:"かんたん" },
   { id:15, kr:"나무", ruby:"ナム", emoji:"🌳", cat:"自然", lv:"かんたん" },
+  { id:50, kr:"무지개", ruby:"ムジゲ", emoji:"🌈", cat:"自然", lv:"かんたん" },
+  { id:51, kr:"구름", ruby:"クルム", emoji:"☁️", cat:"自然", lv:"かんたん" },
 
   // ── ちゅうきゅう ──
   // 動物 (6)
@@ -50,16 +56,21 @@ const CARDS = [
   { id:39, kr:"치즈", ruby:"チジュ", emoji:"🧀", cat:"食べ物", lv:"ちゅうきゅう" },
   { id:40, kr:"포도", ruby:"ポド", emoji:"🍇", cat:"食べ物", lv:"ちゅうきゅう" },
   { id:41, kr:"옥수수", ruby:"オクスス", emoji:"🌽", cat:"食べ物", lv:"ちゅうきゅう" },
-  // のりもの (4)
+  // のりもの (6)
   { id:42, kr:"자동차", ruby:"チャドンチャ", emoji:"🚗", cat:"のりもの", lv:"ちゅうきゅう" },
   { id:43, kr:"비행기", ruby:"ピヘンギ", emoji:"✈️", cat:"のりもの", lv:"ちゅうきゅう" },
   { id:44, kr:"배", ruby:"ペ", emoji:"🚢", cat:"のりもの", lv:"ちゅうきゅう" },
   { id:45, kr:"기차", ruby:"キチャ", emoji:"🚂", cat:"のりもの", lv:"ちゅうきゅう" },
-  // みのまわり (4)
+  { id:56, kr:"자전거", ruby:"チャジョンゴ", emoji:"🚲", cat:"のりもの", lv:"ちゅうきゅう" },
+  { id:57, kr:"로켓", ruby:"ロケッ", emoji:"🚀", cat:"のりもの", lv:"ちゅうきゅう" },
+  // みのまわり (7)
   { id:46, kr:"책", ruby:"チェク", emoji:"📚", cat:"みのまわり", lv:"ちゅうきゅう" },
   { id:47, kr:"연필", ruby:"ヨンピル", emoji:"✏️", cat:"みのまわり", lv:"ちゅうきゅう" },
   { id:48, kr:"시계", ruby:"シゲ", emoji:"⏰", cat:"みのまわり", lv:"ちゅうきゅう" },
   { id:49, kr:"가방", ruby:"カバン", emoji:"🎒", cat:"みのまわり", lv:"ちゅうきゅう" },
+  { id:58, kr:"피아노", ruby:"ピアノ", emoji:"🎹", cat:"みのまわり", lv:"ちゅうきゅう" },
+  { id:59, kr:"크레파스", ruby:"クレパス", emoji:"🖍️", cat:"みのまわり", lv:"ちゅうきゅう" },
+  { id:60, kr:"칫솔", ruby:"チッソル", emoji:"🪥", cat:"みのまわり", lv:"ちゅうきゅう" },
 ];
 
 const LEVELS = ["かんたん", "ちゅうきゅう"];
